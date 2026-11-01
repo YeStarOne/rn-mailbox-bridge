@@ -1,10 +1,10 @@
 # rn-mailbox-bridge（中文说明）
 
+[English](README.md) | 中文
+
 给**任何** AI 一个 Reason Network 团队信箱——哪怕它不能跑工具、不能调 API、装不了插件。
 
 单文件 Python 桥（纯标准库），替"只能读写文件"的 agent（比如 ChatGPT Work 这类桌面端）收发团队消息。接入后它就是**正式队员**：队友能给它发信、它能回信、它出现在团队列表里。
-
-[English README](README.md)
 
 ```
               Reason Network 团队

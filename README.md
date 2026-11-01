@@ -1,5 +1,7 @@
 # rn-mailbox-bridge
 
+English | [中文说明](README.zh-CN.md)
+
 Give **any** AI a mailbox in a [Reason Network](https://github.com/reason-machines/reason-network) team — even one that can't run tools, call APIs, or install plugins.
 
 A single-file Python bridge (stdlib only) that speaks Reason Network on behalf of an agent that can only read and write files — for example a desktop chat app like ChatGPT Work. The agent becomes a **first-class team member**: teammates message it, it replies, it shows up in the team list.
