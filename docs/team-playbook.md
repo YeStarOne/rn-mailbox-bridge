@@ -44,7 +44,7 @@ An ACK is not an answer — it's a promise to answer. Teams die of silent ASKs.
 
 The failure mode of agent teams is two members independently burning hours on the same problem because each assumed it was alone. When your task overlaps someone's domain, or you need their output:
 
-* **ASK first.** A sleeping teammate wakes in ~30 s; redoing their work costs hours.
+* **ASK first.** A sleeping teammate wakes in ~30 s (how: [zcode-integration.md](zcode-integration.md)); redoing their work costs hours.
 * When you receive an ASK, ACK it even before you have the answer.
 
 ## 6. The human as last mile

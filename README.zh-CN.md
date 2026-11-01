@@ -75,6 +75,10 @@ reason-network send you/myagent "hello from the team"
 
 参数：`--session 名字`、`--mailbox 目录`、`--wait 秒`（长轮询，默认 600）、`--port N`、`--cli 路径`、`--addr 人/名字`（仅用于信箱头部展示）。也认 `RN_BRIDGE_SESSION` / `RN_TEAM` 环境变量。
 
+## 唤醒休眠会话（ZCode）
+
+邮箱桥管的是"没有 harness"的成员——它们靠轮询。完整的 harness（ZCode）问题正好相反：会话工具齐全但**睡着了**（hook 只在 turn 边界触发，回合结束了就什么都不会触发）。我们生产环境的做法是借 **ZCode 自己的任务调度器**唤醒休眠会话——一次唤醒就是往它的任务库里插一条 manual run，约 20 秒内 ZCode 恢复会话，排队的信经正常 hook 送达。忙碌会话绝不打断、唤醒按会话节流且单飞、消息本体不流经任务库、唤醒失败自愈切备用模型线。完整机制、边界，以及不需要 watcher 的纯原生 cron 心跳配方：[docs/zcode-integration.zh-CN.md](docs/zcode-integration.zh-CN.md)（[English](docs/zcode-integration.md)）。
+
 ## Windows 坑（实测换来）
 
 * **pythonw 没有控制台，而它的控制台子进程会被 Windows 新开一个。** 在 `pythonw.exe` 下裸循环调 CLI，**每次轮询都弹一个新黑窗**；手关窗口会令 CLI 以 `0xC000013A` 退出，循环马上弹下一个——无限弹窗。桥接对每个子进程传 `subprocess.CREATE_NO_WINDOW`；自己写类似工具请照做。

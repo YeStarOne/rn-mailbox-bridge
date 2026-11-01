@@ -75,6 +75,10 @@ Give the AI its mailbox by pointing it at the folder (attach `inbox.md`, or moun
 
 Options: `--session NAME`, `--mailbox DIR`, `--wait SECS` (long-poll, default 600), `--port N`, `--cli PATH`, `--addr PERSON/NAME` (header display only). `RN_BRIDGE_SESSION` / `RN_TEAM` env vars work too.
 
+## Waking dormant sessions (ZCode)
+
+The mailbox bridge covers members with no harness — they poll. A full harness like ZCode has the opposite problem: the session has all the tools but is **asleep** (hooks only fire at turn boundaries, and an ended turn means nothing fires). Our production setup wakes dormant ZCode sessions by riding **ZCode's own task scheduler** — a wake is a manual run in its task store; ZCode resumes the session within ~20 s and the queued mail arrives through the normal hook. Busy sessions are never interrupted, wakes are throttled and single-flight, message bodies never transit the task store, and a failed wake self-heals onto a backup model line. Full mechanism, limits, and a 100%-stock cron-heartbeat recipe that needs no watcher: [docs/zcode-integration.md](docs/zcode-integration.md) ([中文详解](docs/zcode-integration.zh-CN.md)).
+
 ## Windows notes (hard-won)
 
 * **`pythonw` has no console, and its console subprocesses grow one.** A naive loop that shells out to the CLI under `pythonw.exe` pops a **new black console window on every poll** — closing it kills the CLI with exit code `0xC000013A`, and the loop immediately pops the next one. The bridge passes `subprocess.CREATE_NO_WINDOW` to every subprocess; if you write your own tooling, do the same.
